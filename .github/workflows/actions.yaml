@@ -36,11 +36,11 @@ jobs:
       - name: release creation
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: $ {{ secrets.REPO_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
         with:
-          tag_name: $ {{ github.run_number }}
+          tag_name: ${{ github.run_number }}
           release_name: Release from ${{ github.run_number }}
-          body: New release for $ {{ github.sha }}. Release notes on Documentation site
+          body: New release for ${{ github.sha }}. Release notes on Documentation site
           draft: false
           prerelease: false
 
