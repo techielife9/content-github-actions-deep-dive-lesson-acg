@@ -1,4 +1,3 @@
-
 name: Deploy my lambda function
 
 # trigger on all push events to main branch
@@ -6,6 +5,9 @@ on:
   push:
     branches:
       - main
+
+#build job
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,10 +32,13 @@ jobs:
         with: 
           name: zipped_bundle
           path: ${{ github.sha }}.zip
+
+#publish job
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: release creation
+      - name: create release
+        id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,8 +48,18 @@ jobs:
           body: New release for ${{ github.sha }}. Release notes on Documentation site
           draft: false
           prerelease: false
-
-
-    
+      - name: download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: zipped_bundle
+      - name: upload release event
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: ./${{github.sha}}.zip
+          asset_name: source_code_with_libraries.zip
+          asset_content_type: applications/zip
     
     
