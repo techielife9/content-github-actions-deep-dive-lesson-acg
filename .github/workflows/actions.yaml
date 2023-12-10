@@ -43,7 +43,7 @@ jobs:
         with: 
           name: sp_artifact
           
-        #send it s3 bucket but before configure the key
+        #send it to s3 bucket but before configure the key
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with: 
