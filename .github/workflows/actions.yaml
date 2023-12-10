@@ -28,9 +28,9 @@ jobs:
           cd function
           zip -r ../${{ github.sha }}.zip .
       - name: Archieve artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
-          name: zipped_bundle
+          name: sp_artifact
           path: ${{ github.sha }}.zip
 
 #publish job
@@ -49,9 +49,9 @@ jobs:
           draft: false
           prerelease: false
       - name: download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
-          name: zipped_bundle
+          name: sp_artifact
       - name: upload release event
         uses: actions/upload-release-asset@v1
         env:
