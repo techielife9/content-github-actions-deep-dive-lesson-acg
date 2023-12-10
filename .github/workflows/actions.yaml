@@ -35,10 +35,10 @@ jobs:
     steps:
       - name: release creation
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: $ {{ secrets.github_token }}
+        #env:
+        #  GITHUB_TOKEN: $ {{ secrets.github_token }}
         with:
-          tag_name: $ {{ github.run_nunber }}
+          tag_name: $ {{ github.run_number }}
           release_name: Release from ${{ github.run_number }}
           body: New release for $ {{ github.sha }}. Release notes on Documentation site
           draft: false
