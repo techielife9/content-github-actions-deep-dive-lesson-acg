@@ -15,7 +15,7 @@ jobs:
       - name: checkout the code
         uses: actions/checkout@v2
       - name: set up python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2        
         with:
           python-version: 3.8
       - name: Install libraries
@@ -23,43 +23,14 @@ jobs:
           cd function
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt -t .; fi
+          
       - name: Create zip bundle
         run: | 
           cd function
           zip -r ../${{ github.sha }}.zip .
+          
       - name: Archieve artifact
         uses: actions/upload-artifact@v3
         with: 
           name: sp_artifact
           path: ${{ github.sha }}.zip
-
-#publish job
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: create release
-        id: create-release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release from ${{ github.run_number }}
-          body: New release for ${{ github.sha }}. Release notes on Documentation site
-          draft: false
-          prerelease: false
-      - name: download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: sp_artifact
-      - name: upload release event
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./${{github.sha}}.zip
-          asset_name: source_code_with_libraries.zip
-          asset_content_type: applications/zip
-    
-    
