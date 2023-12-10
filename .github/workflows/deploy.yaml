@@ -7,7 +7,6 @@ on:
       - lab-env
 
 #build job
-
 jobs:
   build:
     runs-on: ubuntu-latest
