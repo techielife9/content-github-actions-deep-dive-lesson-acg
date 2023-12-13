@@ -20,7 +20,7 @@ jobs:
       - name: Install  linting libraries
         run: | 
           cd function
-          pip install flask8
+          pip3 install flask8
       - name: Lint with flask8
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
