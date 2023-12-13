@@ -20,7 +20,7 @@ jobs:
       - name: Install  linting libraries
         run: | 
           cd function
-          pip install pip==21.0.1
+          pip install pip==23.3.1
           pip install flask8
       - name: Lint with flask8
         run: |
