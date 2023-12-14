@@ -83,10 +83,14 @@ jobs:
       - name: Create a test function
         run: | 
            aws lambda create-function --function-name test-function \
-            --s3-bucket my-bucket-sp1313, s3-key ${{ github.sha}}.zip \
+            --code s3-bucket my-bucket-sp1313,s3-key ${{ github.sha}}.zip \
             --handler lambda_function.lambda_handler --runtime python3.8 \
             --role arn:aws:iam::056481185307:role/my-lambda-role
-            
+      - name: Wait 30 seconds
+        run: sleep 30
+      - name: Destroy
+        if: ${{ always() }}           
+  
   deploy:
     runs-on: ubuntu-latest
     needs: test
